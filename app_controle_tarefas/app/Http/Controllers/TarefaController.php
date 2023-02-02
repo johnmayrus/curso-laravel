@@ -22,41 +22,9 @@
          */
         public function index()
         {
-            return view('tarefa.index');
-/*        pode ser feito de 4 formas! para as duas primeiras é preciso chamar o comando 'auth' no metodo construtor.
-            $id = auth()->user()->id;
-            $name = auth()->user()->name;
-            $email = auth()->user()->email;
-
-            return "ID: $id | Nome: $name | Email: $email";
-*/
-            /*$id = Auth::user()->id;
-            $name = Auth::user()->name;
-            $email = Auth::user()->email;
-
-            return "ID: $id | Nome: $name | Email: $email";
-            */
-            /*if(Auth::check()){
-                $id = Auth::user()->id;
-                $name = Auth::user()->name;
-                $email = Auth::user()->email;
-
-                return "ID: $id | Nome: $name | Email: $email";
-
-            }else{
-                return 'Você não está logado no sistema';
-            }*/
-            /* if(auth()->check()){
-                 $id = auth()->user()->id;
-                 $name = auth()->user()->name;
-                 $email = auth()->user()->email;
-
-                 return "ID: $id | Nome: $name | Email: $email";
-
-             }else{
-                 return 'Você não está logado no sistema';
-             }
-     */
+            $user_id = Auth()->user()->id;
+            $tarefas = Tarefa::where('user_id', $user_id)->paginate(10);
+            return view('tarefa.index', ['tarefas' => $tarefas]);
         }
 
         /**
@@ -95,7 +63,7 @@
          */
         public function show(Tarefa $tarefa)
         {
-            return view('tarefa.show',['tarefa'=>$tarefa]);
+            return view('tarefa.show', ['tarefa' => $tarefa]);
         }
 
         /**
@@ -106,7 +74,7 @@
          */
         public function edit(Tarefa $tarefa)
         {
-            //
+            return view('tarefa.edit', ['tarefa' => $tarefa]);
         }
 
         /**
@@ -118,7 +86,8 @@
          */
         public function update(Request $request, Tarefa $tarefa)
         {
-            //
+           $tarefa->update($request->all());
+
         }
 
         /**
